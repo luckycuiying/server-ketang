@@ -27,7 +27,7 @@ app.get('/', (_req: Request, res: Response) => {
     res.json({ success: true, message: 'hello world' });
 });
 app.post('/user/register', userController.register);
-// app.get('/user/validate', userController.validate);
+app.get('/user/validate', userController.validate);
 app.post('/user/login', userController.login);
 // app.post('/user/uploadAvatar', upload.single('avatar'), userController.uploadAvatar);
 app.use((_req: Request, _res: Response, next: NextFunction) => {
