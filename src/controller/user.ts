@@ -81,9 +81,9 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         next(error);
     }
 }
-// export const uploadAvatar = async (req: Request, res: Response, next: NextFunction) => {
-//     let { userId } = req.body;
-//     let avatar = `${req.protocol}://${req.headers.host}/uploads/${req.file.filename}`;
-//     await User.updateOne({ _id: userId }, { avatar });
-//     res.send({ success: true, data: avatar });
-// }
+export const uploadAvatar = async (req: Request, res: Response) => {
+    let { userId } = req.body;
+    let avatar = `${req.protocol}://${req.headers.host}/uploads/${req.file.filename}`;
+    await User.updateOne({ _id: userId }, { avatar });
+    res.send({ success: true, data: avatar });
+}

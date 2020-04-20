@@ -6,16 +6,16 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import errorMiddleware from './middlewares/errorMiddleware';
 import *  as userController from './controller/user';
-// import multer from 'multer';
+import multer from 'multer';
 import "dotenv/config";
 import path from 'path';
-// const storage = multer.diskStorage({
-//     destination: path.join(__dirname, 'public', 'uploads'),
-//     filename(_req: Request, file: Express.Multer.File, cb) {
-//         cb(null, Date.now() + path.extname(file.originalname));
-//     }
-// });
-// const upload = multer({ storage });
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'public', 'uploads'),
+    filename(_req: Request, file: Express.Multer.File, cb) {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage });
 const app: Express = express();
 app.use(morgan("dev"));
 app.use(cors());
@@ -29,7 +29,7 @@ app.get('/', (_req: Request, res: Response) => {
 app.post('/user/register', userController.register);
 app.get('/user/validate', userController.validate);
 app.post('/user/login', userController.login);
-// app.post('/user/uploadAvatar', upload.single('avatar'), userController.uploadAvatar);
+app.post('/user/uploadAvatar', upload.single('avatar'), userController.uploadAvatar);
 app.use((_req: Request, _res: Response, next: NextFunction) => {
     const error: HttpException = new HttpException(404, '尚未为此路径分配路由');
     next(error);
