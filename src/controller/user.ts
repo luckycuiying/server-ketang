@@ -8,12 +8,11 @@ import jwt from 'jsonwebtoken';
 // 客户端会把token放在请求头里发给服务器
 export const validate = async (req: Request, res: Response, next: NextFunction) => {
     const authorization = req.headers.authorization;
-    debugger
     if (authorization) {
         const access_token = authorization.split(' ')[1];//Bearer access_token
         if (access_token) {
             try {
-                const userPayload: UserPayload = jwt.verify(access_token, process.env.JWT_SECRET_KEY || 'zhufeng') as UserPayload;
+                const userPayload: UserPayload = jwt.verify(access_token,'tao.xu') as UserPayload;
                 const user: UserDocument | null = await User.findById(userPayload.id);
                 if (user) {
                     res.json({
@@ -36,7 +35,6 @@ export const validate = async (req: Request, res: Response, next: NextFunction) 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
         let { username, password, confirmPassword, email, addresses } = req.body;
-        debugger
         const { valid, errors } = validateRegisterInput(username, password, confirmPassword, email);
         if (!valid) {
             throw new HttpException(UNPROCESSABLE_ENTITY, `参数验证失败!`, errors);

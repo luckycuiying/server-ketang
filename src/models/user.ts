@@ -41,7 +41,7 @@ const UserSchema: Schema<UserDocument> = new Schema({
 
 UserSchema.methods.generateToken = function (): string {
     let payload: UserPayload = ({ id: this.id });
-    return jwt.sign(payload, process.env.JWT_SECRET_KEY!, { expiresIn: '1h' });
+    return jwt.sign(payload, 'tao.xu', { expiresIn: '1h' });
 }
 UserSchema.pre<UserDocument>('save', async function (next: HookNextFunction) {
     if (!this.isModified('password')) {
